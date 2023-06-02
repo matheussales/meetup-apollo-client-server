@@ -2,72 +2,69 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
 const typeDefs = `
-    type Book {
+    type Produto {
         id: ID!
-        title: String
-        author: String
+        nome: String
+        preco: Int
+        categoria: Categoria
     }
 
-    type Technologie {
+    type Categoria {
         id: ID!
-        name: String
+        nome: String
     }
 
     type Query {
-        books: [Book]
-        newBooks: [Book]
-        technologies: [Technologie]
+        produtos: [Produto]
+    }
+
+    input ProdutoInput {
+        nome: String
+        preco: Int
     }
 
     type Mutation {
-        addTechnologies(name: String!): Technologie
+        addProduto(produto: ProdutoInput): Produto
+        alteraProduto(produto: ProdutoInput): Produto
+        deleteProduto(id: ID!): Boolean
     }
 `;
 
 
-const books = [
+const produtos = [
     {
         id: 1,
-        title: 'The Awakening',
-        author: 'Kate Chopin',
+        nome: 'Samsung Galaxy A54',
+        preco: 1000,
+        categoria: {
+            id: 1,
+            nome: 'Celular'
+        }
     },
     {
         id: 2,
-        title: 'City of Glass',
-        author: 'Paul Auster',
+        nome: 'Samsung Galaxy S22',
+        preco: 2000,
+        categoria: {
+            id: 1,
+            nome: 'Celular'
+        }
     },
     {
         id: 3,
-        title: 'Teste',
-        author: 'teste',
+        nome: 'Iphone 13',
+        preco: 5000,
+        categoria: {
+            id: 1,
+            nome: 'Celular'
+        }
     },
 ];
 
-
-let technologiesList = [];
-
 const resolvers = {
     Query: {
-        books: () => {
-            return books; 
-        },
-        newBooks: () => {
-            throw new Error('Não foi possível conectar com o servidor')
-        },
-        technologies: () => {
-            return technologiesList;
-        }
-    },
-    Mutation: {
-        addTechnologies: (_, { name }) => {
-            const newTechnologie = {
-                id: technologiesList.length + 1, 
-                name: name
-            };
-
-            technologiesList.push(newTechnologie);
-
-            return newTechnologie;
+        produtos: () => {
+            return produtos; 
         }
     }
 };
