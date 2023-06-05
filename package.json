@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "@apollo/server": "^4.7.1",
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "react-router-dom": "^6.11.2"
   }
 }
